@@ -1,0 +1,26 @@
+name: template-artifact
+
+on:
+  workflow_call
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print Runner Hostname and IP
+      run: |
+        echo "Runner hostname: $(hostname)"
+        curl http://ipinfo.io/ip
+
+    - name: Create artifact test.txt
+      run: echo "Dev test content" > test.txt
+
+    - name: Zip the test.txt
+      run: zip test.zip test.txt
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: test.zip
+        path: test.zip
